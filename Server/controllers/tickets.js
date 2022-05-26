@@ -41,8 +41,6 @@ export const  getTickets = async (req, res) => {
 export const updateTicket = async (req, res) => {
   const ticket = req.body;
   const { id } = req.params;
-  console.log(req.body)
-  console.log(id)
   const { ticket_des, fname,name } = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(id))
@@ -85,19 +83,4 @@ export const deleteTicket = async (req, res) => {
   await Ticket.findByIdAndUpdate(_id, deletedTicket, { new: true });
 
   res.json(deletedTicket);
-};
-export const getTicketsByName = async (req, res) => {
-  const { searchQuery } = req.query;
-
-  try {
-    const title = new RegExp(searchQuery, "i");
-
-    const posts = await Ticket.find({
-      $or: [{ empname: new RegExp(".*" + searchQuery + ".*") }],
-    }).sort({ Date: -1 });
-
-    res.json(posts);
-  } catch (error) {
-    res.status(404).json({ message: error.message });
-  }
 };

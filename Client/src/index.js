@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import { composeWithDevTools } from "redux-devtools-extension";
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -13,7 +14,7 @@ import authReducer from './reducer/auth';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-const store = createStore(authReducer,compose(applyMiddleware(thunk)));
+const store = createStore(authReducer, composeWithDevTools(applyMiddleware(thunk)));
 root.render(
   <React.StrictMode>
     <Provider store={store}>

@@ -4,15 +4,14 @@ import {
   getTickets,
   updateTicket,
   deleteTicket,
-  getTicketsByName,
 } from "../controllers/tickets.js";
-const router = express.Router();
 import auth from "../middleware/auth.js";
+const router = express.Router();
+
 
 router.get("/", getTickets);
-router.post("/add",addTicket);
+router.post("/add",auth,addTicket);
 router.put("/:id",updateTicket);
 router.post("/delete", deleteTicket);
 
-router.get("/search", auth, getTicketsByName);
 export default router;

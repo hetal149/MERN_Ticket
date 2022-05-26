@@ -8,17 +8,22 @@ import ticketRouter from "./routes/tickets.js";
 import 'dotenv/config';
 const app = express();
 
+const options = {
+    origin:"http://localhost:3000",
+    useSuccessStatus:200,
+}
+
 app.use(bodyParser.json({ limit: '30mb', extended: true }))
 app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }))
-app.use(cors());
+app.use(cors(options));
 app.use("/users", userRouter);
 app.use('/tickets',ticketRouter);
 
 
-const pORT = process.env.PORT|| 8080;
-const uri = 'mongodb+srv://hetal123:hetal123@cluster0.cjkwi.mongodb.net/MERNTicket?retryWrites=true&w=majority';
+const port = process.env.PORT|| 8080;
+const uri = process.env.URI;
 
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => app.listen(pORT, () => console.log(`Server Running on Port: http://localhost:${pORT}`)))
+  .then(() => app.listen(port, () => console.log(`Server Running on Port: http://localhost:${port}`)))
   .catch((error) => console.log(`${error} did not connect`));
 

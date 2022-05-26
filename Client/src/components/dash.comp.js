@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-
-import { Hidden } from "@mui/material";
-import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -15,7 +12,6 @@ import TableSortLabel from "@mui/material/TableSortLabel";
 import { Button, makeStyles, Typography } from "@material-ui/core";
 import Paper from "@mui/material/Paper";
 import moment from "moment";
-import { useParams, useNavigate } from "react-router-dom";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -28,18 +24,17 @@ import { deleteTicket, getTickets, updateTicket } from "../service/api";
 const useStyles = makeStyles({
   button: {
     fontSize: "15px",
-    // backgroundColor:'Green',
+
     color: "Green",
     width: "70px",
   },
   close: {
     fontSize: "15px",
-    // backgroundColor:'Green',
+  
     color: "red",
     width: "70px",
   },
 
-  // 330033,000066
   Tablehead: {
     backgroundColor: "#9c9ce2",
     color: "#33eaff",
@@ -70,8 +65,7 @@ function getComparator(order, orderBy) {
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-// This method is created for cross-browser compatibility, if you don't
-// need to support IE11, you can use Array.prototype.sort() directly
+
 function stableSort(array, comparator) {
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
@@ -129,12 +123,12 @@ const headCells = [
     label: "Resolved_at",
   },
   {
-    id: "",
+    id: "update",
     numeric: true,
     disablePadding: false,
   },
   {
-    id: "",
+    id: "resolved",
     numeric: true,
     disablePadding: false,
   },
@@ -181,7 +175,7 @@ function EnhancedTableHead(props) {
 EnhancedTableHead.propTypes = {
   numSelected: PropTypes.number.isRequired,
   onRequestSort: PropTypes.func.isRequired,
-  //   onSelectAllClick: PropTypes.func.isRequired,
+
   order: PropTypes.oneOf(["asc", "desc"]).isRequired,
   orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
@@ -208,7 +202,7 @@ export const Home1 = () => {
   const [userold, setUserold] = useState(
     JSON.parse(localStorage.getItem("profile"))
   );
-  // console.log( userold?.result.fname,)
+
 
   const [ticket, setTicket] = useState({
     uid: "",
@@ -436,7 +430,7 @@ export const Home1 = () => {
                                 color="secondary"
                                 onClick={() => deleteticketone(user)}
                               >
-                                Delete
+                                Resolve
                               </Button>
                             </TableCell>
                           </>
@@ -459,7 +453,7 @@ export const Home1 = () => {
                                 variant="outlined"
                                 color="secondary"
                               >
-                                Delete
+                                Resolve
                               </Button>
                             </TableCell>
                           </>

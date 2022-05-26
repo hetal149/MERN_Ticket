@@ -1,19 +1,21 @@
 
 import './App.css';
 import { Login } from './components/login.comp';
-import { BrowserRouter, Route, Routes} from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes} from 'react-router-dom';
 
 import { Register } from './components/reg.comp';
 
 import Nav from './components/nav.comp';
 
 import { Ticket } from './components/ticket.comp';
-import { Home1} from './components/dash.comp';
 import { Home } from './components/home.comp';
 
 
 
 function App() {
+
+  const user = JSON.parse(localStorage.getItem('profile'))
+  
   return (
     <>
    
@@ -21,16 +23,13 @@ function App() {
    <Nav/>
   
      <Routes>
-       <Route path="/" element={<Home/>}></Route>
-      <Route path="/login" element={<Login/>}/>
-      <Route path="/register" element={<Register/>}/>
-      <Route path="/home" element={<Home1/>}/>
+       <Route path="/" element={!user ?<Home/> : <Navigate to="/ticket"/>}></Route>
+      <Route path="/login" element={<Login/>}></Route>
+      <Route path="/register" element={!user?<Register/>:<Navigate to="/ticket"/>}/>
       <Route path="/ticket" element={<Ticket/>}/>
       </Routes>
     </BrowserRouter>
 
-
-   {/* <Login/> */}
    </>
   );
 }

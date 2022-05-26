@@ -1,11 +1,11 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState } from 'react';
 import { FormGroup, FormControl, InputLabel, Input, Button, Typography,makeStyles } from '@material-ui/core';
 import { validFname,validEmail,validUsername,validPassword } from './regex/regex';
-import { Avatar, Paper, Grid, Container } from '@material-ui/core';
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useDispatch } from 'react-redux';
+import {  useNavigate } from "react-router-dom";
+import { useDispatch,useSelector } from 'react-redux';
 import { signup } from '../actions/auth';
-import { getUsers } from '../service/api';
+
+
 const initialValue = {
     fname:'',
     email:'',
@@ -36,6 +36,9 @@ const useStyles = makeStyles({
     
 })
 export const Register = () => {
+    // const userstate = useSelector((authReducer)=>authReducer)
+    // const {errors} = userstate
+    
     const [user, setUser] = useState(initialValue);
     const { fname, email, username,password } = user;
  
@@ -58,20 +61,23 @@ export const Register = () => {
         const isValidKey='is'+e.target.name;
         
        
-        if(e.target.value==="" || RegExObj.test(e.target.value))
+        if(RegExObj.test(e.target.value))
         {
             setIsValid({...isValid,[isValidKey]:''});
             setUser({...user, [e.target.name]: e.target.value});
         }
+        else if(e.target.value===""){
+            setIsValid({...isValid,[isValidKey]:'This Field is required'})
+        }
         else{
-            setIsValid({...isValid,[isValidKey]:'Invalid input..!!'});
+            setIsValid({...isValid,[isValidKey]:'Please Enter the details..!!'});
           
         }
     }
 
     var flag=true;
     const validateDetailsFlag = Object.values(isValid).every(value => {
-        if (value!==null && value!=='') {
+        if (value!==null && value!==''&&fname.length===0 || username.length===0 || email.length===0 || password.length===0 || isusername.length!==0 || isfname.length!==0) {
             flag=false;
         }
         return flag;
@@ -84,7 +90,7 @@ export const Register = () => {
             dispatch(signup(user, navigate))
         }
         else{
-            alert("Invalid input..!!");
+            alert("Please enter the details..!!");
         }
     }
     
@@ -94,7 +100,7 @@ export const Register = () => {
             
             <FormControl>
                 <InputLabel htmlFor="fname">Name</InputLabel>
-                <Input onChange={(e) => onValidate(e,validFname)} onBlur={(e) => onValidate(e,validFname)} name="fname" value={fname} id="txtName" inputProps={{ maxLength: 40 }} />
+                <Input onChange={(e) => onValidate(e,validFname)} onBlur={(e) => onValidate(e,validFname)}  name="fname" value={fname} id="txtName" inputProps={{ maxLength: 40 }}  />
                 <div style={validationMessageCSS}>{isfname}</div>
             </FormControl>
             <FormControl>
@@ -111,13 +117,15 @@ export const Register = () => {
                 <InputLabel htmlFor="password">Password</InputLabel>
                 <Input type='password' onChange={(e) => onChangeSetState(e)} onBlur={(e) => onValidate(e,validPassword)} name='password' value={password} id="txtPassword" inputProps={{maxLength: 12 }} />
                 <div style={validationMessageCSS}>{ispassword}</div>
+                
             </FormControl>
             <br/>
             <FormControl>
                 
-                <Button className={classes.button} variant="contained" color="secondary" disabled={fname.length===0 || username.length===0 || email.length===0 || password.length===0 || isusername.length!==0 || isfname.length!==0} onClick={() => validateDetails()}>Add User</Button>
+                <Button className={classes.button} variant="contained" color="secondary"  onClick={() => validateDetails()}>Add User</Button>
             </FormControl>
-            
+            {/* disabled={fname.length===0 || username.length===0 || email.length===0 || password.length===0 || isusername.length!==0 || isfname.length!==0} */}
+            {/* {errors && <Error error={errors}/>} */}
         </FormGroup>
     )
 }

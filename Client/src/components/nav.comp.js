@@ -5,7 +5,7 @@ import {useDispatch} from 'react-redux'
 import useStyles from "./nav.style";
 import * as actionType from  '../action/ticket-action'
 import decode from 'jwt-decode'
-import { Home } from "./home.comp";
+
 
 function NavBar() {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));

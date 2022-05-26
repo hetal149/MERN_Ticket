@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch ,useSelector} from "react-redux";
 import { signin } from "../actions/auth";
 
-import { AUTH } from "../action/ticket-action";
+
 import {
   FormGroup,
   FormControl,
@@ -15,9 +15,10 @@ import {
 
 import { Grid } from "@material-ui/core";
 import { Link, useNavigate } from "react-router-dom";
+import Error from "./error.comp";
+
 const initialValue = {
   email: "",
-
   password: "",
 };
 
@@ -40,7 +41,9 @@ const useStyles = makeStyles({
 });
 export const Login = () => {
   
- 
+  const userstate = useSelector((authReducer)=>authReducer)
+  const {errors} = userstate
+  
   const [user, setUser] = useState(initialValue);
   const { email, password } = user;
 
@@ -66,6 +69,9 @@ export const Login = () => {
   // Common onClick().
 
   return (
+    <>
+   
+    
     <FormGroup className={classes.container}>
       <Typography variant="h4" align="center" className={classes.label}>SignIn</Typography>
       <FormControl>
@@ -80,6 +86,7 @@ export const Login = () => {
         />
       </FormControl>
       <FormControl>
+        
         <InputLabel htmlFor="password">Password</InputLabel>
         <Input
           type="password"
@@ -104,7 +111,10 @@ export const Login = () => {
         </Button>
       </FormControl>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      
+     
+      {errors && (<Error error={errors} /> )}
+
+
       <Grid container justify="flex-end">
         <Grid item>
           <Button component={Link} to="/register">
@@ -113,6 +123,7 @@ export const Login = () => {
         </Grid>
       </Grid>
     </FormGroup>
+    </>
   );
 };
 
